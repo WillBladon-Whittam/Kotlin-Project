@@ -1,11 +1,15 @@
 class University(val name: String) {
+    /**
+     * University object to store all the buildings of the University
+     * There should only be one university required for the project - but multiple can be used
+     */
     private var buildings = mutableListOf<Building>()
 
     fun getBuildings() : List<Building> {
         return buildings
     }
 
-    fun addBuilding(building: Building) {
+    private fun addBuilding(building: Building) {
         buildings.add(building)
     }
 

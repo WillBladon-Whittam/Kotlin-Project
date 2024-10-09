@@ -1,11 +1,14 @@
-class Building(val name: String, val code: String, val university: University) {
+class Building(val name: String, val code: String, private val university: University) {
+    /**
+     * Building object to store the rooms of the building
+     */
     private var rooms = mutableListOf<Room>()
 
     fun getRooms() : List<Room> {
         return rooms
     }
 
-    fun addRoom(room: Room) {
+    private fun addRoom(room: Room) {
         rooms.add(room)
     }
 
