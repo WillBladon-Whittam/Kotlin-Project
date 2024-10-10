@@ -1,3 +1,12 @@
+/**
+ * @author  William Bladon-Whittam
+ */
+
+package src.main.kotlin.sessions
+
+import src.main.kotlin.classes.University
+import src.main.kotlin.classes.Computer
+import src.main.kotlin.classes.ComputerBooking
 import java.time.LocalDate
 import java.time.DayOfWeek
 import java.time.format.DateTimeFormatter
@@ -63,8 +72,8 @@ class UserSession {
                 1 -> this.searchRoomByBuilding()
                 2 -> this.searchRoomByOS()
                 3 -> this.bookComputer()
-                4 -> {} // View Bookings
-                5 -> {} // Cancel Bookings
+                4 -> this.viewBooking()
+                5 -> this.cancelBooking()
                 6 -> running = false
                 else -> println("Invalid Option.")
             }
@@ -117,10 +126,10 @@ class UserSession {
          *
          * The brief doesn't really specify how the user should book. So I just ask the user for the computer
          * Global ID to book the specific computer. Another interpretation could be the user enters the room they
-         * want a computer in and is assigned a Computer in that room. But I don't really like that.
+         * want a computer in and is assigned a Computer in that room.
          */
         println("Enter the Global ID of the computer to book (e.g. TS101-1)")
-        val computerGlobalID = readLine() ?: ""
+        val computerGlobalID = readlnOrNull() ?: ""
 
         // Find the computer the user has entered with the Global ID
         val foundComputer = university.getBuildings()
@@ -132,8 +141,12 @@ class UserSession {
             return
         }
 
-        // Get the available dates/timeslots for the booking
+        // Get the available dates/timeslots for the booking - Check if its empty
         val map = foundComputer.getAvailableBookingDates()
+        if (map.isEmpty()) {
+            println("No available slots for $computerGlobalID next week.")
+            return
+        }
 
         // Find out what date next week is to print to the user (e.g. 14th October - 20th October)
         val nextMonday = LocalDate.now().with(DayOfWeek.MONDAY).plusWeeks(1)
@@ -148,7 +161,7 @@ class UserSession {
         }
 
         // Select a day
-        println("Please select a day")
+        println("Please select one of the following available days")
         for ((i, key) in map.keys.withIndex()) {
             println("${i + 1}. $key")
         }
@@ -161,7 +174,7 @@ class UserSession {
         }
 
         // Select a timeslot
-        println("Please select a timeslot")
+        println("Please select one of the following available timeslot")
         for ((i, timeslot) in map.entries.elementAt(selectedDay-1).value.withIndex()) {
             println("${i + 1}. $timeslot")
         }
@@ -183,5 +196,78 @@ class UserSession {
         println("$computerGlobalID booked for Computer ${foundComputer.computerNumber} in " +
                 "${foundComputer.computerRoom.building.code}${foundComputer.computerRoom.roomNumber} " +
                 "at $timeslot on $day")
+    }
+
+    private fun getBookings() : List<ComputerBooking> {
+        val foundBookings = mutableListOf<ComputerBooking>()
+        for (building in university.getBuildings()) {
+            for (room in building.getRooms()) {
+                for (computer in room.getComputers()) {
+                    for (booking in computer.getBookings()) {
+                        foundBookings.add(booking)
+                    }
+                }
+            }
+        }
+        return foundBookings
+    }
+
+    private fun viewBooking() : Boolean {
+        /**
+         * View all the bookings
+         *
+         * To find all the bookings - I just iterate over all computers in the university and display them.
+         * When integrating it would make sense to add the bookings to a User object.
+         */
+        val allBookings = this.getBookings()
+        if (allBookings.isEmpty()) {
+            println("No bookings found.")
+            return false
+        }
+        println("Your bookings:")
+        for ((i, booking) in allBookings.withIndex()) {
+            println("${i+1}. ${booking.computerId} on ${booking.day} at ${booking.timeSlot}")
+        }
+        println("") // New line
+        return true
+    }
+
+    private fun cancelBooking() {
+        /**
+         * Cancel a booking.
+         *
+         * Similar to view booking. When integrating it would make sense to remove the bookings from the User object.
+         */
+        val allBookings = this.getBookings()
+
+        val completed = this.viewBooking()
+        if (!completed) {
+            return
+        }
+        println("Please enter which booking you would like to cancel.")
+
+        val deletedBooking = readlnOrNull()?.toIntOrNull() ?: 0
+
+        // Check a valid range was entered
+        if (deletedBooking !in 1..allBookings.size) {
+            println("Invalid Option")
+            return
+        }
+
+        var counter = 0
+        for (building in university.getBuildings()) {
+            for (room in building.getRooms()) {
+                for (computer in room.getComputers()) {
+                    for (booking in computer.getBookings()) {
+                        counter += 1
+                        if (deletedBooking == counter) {
+                            computer.deleteBooking(booking)
+                            println("Deleted booking for ${booking.computerId} " +
+                                    "on ${booking.day} at ${booking.timeSlot}")
+                       }
+                    }
+                }
+            }
+        }
     }
 }

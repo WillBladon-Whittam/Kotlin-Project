@@ -1,3 +1,9 @@
+/**
+ * @author  William Bladon-Whittam
+ */
+
+package src.main.kotlin.classes
+
 class Building(val name: String, val code: String, private val university: University) {
     /**
      * Building object to store the rooms of the building

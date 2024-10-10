@@ -1,10 +1,16 @@
+/**
+ * @author  William Bladon-Whittam
+ */
+
+package src.main.kotlin.classes
+
 abstract class Room(val roomNumber: Int, val building: Building) {
     /**
      * Abstract room class to store the computers of the room
      *
      * Brief state:
      * "All computers in a given lab have the same operating system  (Windows, Linux or Mac)."
-     * Abit wierd as an OS should be an attribute of a computer but oh well that's what it says
+     *  So use Room as the abstract class - then use specific OS Room subclasses.
      *
      */
     private var computers = mutableListOf<Computer>()
@@ -13,6 +19,10 @@ abstract class Room(val roomNumber: Int, val building: Building) {
 
     fun addComputer(computer: Computer) {
         computers.add(computer)
+    }
+
+    fun getComputers() : List<Computer> {
+        return computers
     }
 
     fun findComputerByGlobalId(searchId: String) : Computer? {

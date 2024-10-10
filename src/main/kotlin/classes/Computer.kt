@@ -1,3 +1,9 @@
+/**
+ * @author  William Bladon-Whittam
+ */
+
+package src.main.kotlin.classes
+
 data class ComputerBooking(
     val computerId: String,
     val day: String,
@@ -10,6 +16,9 @@ class Computer(val computerNumber: Int, val computerRoom: Room) {
      * Computer object to store the bookings of the Computer
      * Bookings are stored in a mutable set (using a set over a list as there can't be duplicate bookings)
      * The set will store a ComputerBooking data class with the booking information
+     *
+     * Currently assuming only 1 User. The final project will need to assign a booking to a user.
+     * This will be done when integrating
      */
     var globalId: String = "${computerRoom.building.code}${computerRoom.roomNumber}-$computerNumber"
 
@@ -31,6 +40,26 @@ class Computer(val computerNumber: Int, val computerRoom: Room) {
         } else {
             false
         }
+    }
+
+    fun deleteBooking(booking: ComputerBooking): Boolean {
+        /**
+         * Delete a Computer booking. Make sure that the booking exists before trying to delete it.
+         */
+        return if (bookings.none {
+                it.computerId == booking.computerId &&
+                        it.day == booking.day &&
+                        it.timeSlot == booking.timeSlot
+            }) {
+            false
+        } else {
+            bookings.remove(booking)
+            true
+        }
+    }
+
+    fun getBookings() : MutableSet<ComputerBooking> {
+        return bookings
     }
 
     private fun isDateTimeBooked(day: String, timeSlot: String, computerId: String): Boolean {

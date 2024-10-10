@@ -1,3 +1,9 @@
+/**
+ * @author  William Bladon-Whittam
+ */
+
+package src.main.kotlin.classes
+
 class University(val name: String) {
     /**
      * University object to store all the buildings of the University
@@ -30,6 +36,6 @@ class University(val name: String) {
     }
 
     override fun toString() : String {
-        return "University: $name Buildings: $buildings"
+        return "src.main.kotlin.classes.University: $name Buildings: $buildings"
     }
 }
