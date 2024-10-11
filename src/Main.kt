@@ -1,3 +1,6 @@
+import session.UserSession
+
 fun main (){
-    println("Test")
+    val session = UserSession()
+    session.start()
 }
