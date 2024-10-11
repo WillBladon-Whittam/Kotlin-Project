@@ -1,0 +1,13 @@
+////////////////////////////// Main.kt //////////////////////////////////////////
+///////////////////////// Author: Edward Kirr //////////////////////////////////
+////// Description: Responsible for the main entry point of the program ///////
+
+
+package src
+import sessions.UserSession
+
+fun main() {
+    val session = UserSession()
+    session.run()
+
+}
