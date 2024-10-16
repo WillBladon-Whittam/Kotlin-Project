@@ -3,31 +3,19 @@ package session
 import classes.User
 
 class UserSession {
+    //Hard Coded Bookings
+    private val bookings = listOf(
+        mapOf("computerId" to "TS101-1", "day" to "Monday", "timeSlot" to "9am-11am", "studentId" to "User"),
+        mapOf("computerId" to "TS101-1", "day" to "Tuesday", "timeSlot" to "11am-1pm", "studentId" to "User"),
+        mapOf("computerId" to "TS101-1", "day" to "Wednesday", "timeSlot" to "1pm-3pm", "studentId" to "User"),
+        mapOf("computerId" to "TS101-1", "day" to "Thursday", "timeSlot" to "3pm-5pm", "studentId" to "User"))
 
     fun mainLoop(user: User) {
         var running = true
         while (running) {
             println(user.printMenu())
             val choice = readlnOrNull()?.toIntOrNull() ?: 0
-            when (user.optionMenu(choice)){
-                "searchRoomByBuilding" -> this.searchRoomByBuilding()
-                "searchRoomByOS" -> this.searchRoomByOS()
-                "bookComputer" -> this.bookComputer()
-                "viewBooking" -> this.viewBooking()
-                "cancelBooking" -> this.cancelBooking()
-                "displayAllBookings" -> this.displayAllBookings()
-                "addRoom" -> this.addRoom()
-                "Invalid" -> println("Invalid Input")
-                "Exit" -> running = false
-            }
+            running = user.optionMenu(choice)
         }
     }
-
-    private fun searchRoomByBuilding() { println("searchRoomByBuilding") }
-    private fun searchRoomByOS() { println("searchRoomByOS") }
-    private fun bookComputer() { println("bookComputer") }
-    private fun viewBooking() { println("viewBooking") }
-    private fun cancelBooking() { println("cancelBooking") }
-    private fun displayAllBookings() { println("displayAllBookings") }
-    private fun addRoom() { println("addRoom") }
 }
