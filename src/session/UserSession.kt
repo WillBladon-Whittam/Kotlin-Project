@@ -11,6 +11,7 @@ class UserSession {
     private val university = University("Solent")
 
     init {
+        //Hard Coded rooms and bookings
         university.getBuildings()[0].addRoom(Room("J305",12, listOf("9am-11am", "11am-1pm", "1pm-3pm", "3pm-5pm")))
         university.getBuildings()[0].addRoom(Room("J312",15, listOf("9am-11am", "1pm-3pm", "3pm-5pm")))
 
@@ -51,7 +52,6 @@ class UserSession {
             println("Incorrect Username and Password")
         }
     }
-
 
     private fun adminMenu(choice: Int, user: Admin) : Boolean {
         when (choice) {

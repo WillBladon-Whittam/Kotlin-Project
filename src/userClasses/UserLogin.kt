@@ -6,14 +6,7 @@ class UserLogin {
     private var passwords = listOf<String>("123","456","789")
     private var admin = listOf<Boolean>(false,true,false)
 
-    /**
-    Checks if the username is in the usernames list
-           if the same password matches
-           if the account is an Admin account
-    If correct + Admin = creates an Admin user
-                         else creates a user
-    Incorrect returns null
-    **/
+    //Check usernames and passwords the either creates a new admin/user or selects an existing admin/user
     fun login(inputUsername:String, inputPassword:String, users:MutableList<User>) : User? {
         for ((i,username) in usernames.withIndex()) {
             if (inputUsername == username) {

@@ -8,13 +8,9 @@ open class User (private var name:String){
 
     fun getName() : String { return name }
 
-    //searchRoomByBuilding done in main
-
+    //Functions done by Member A
     fun viewBookings() { println("viewBookings") }
-
     fun searchRoomByOS() { println("searchRoomByOS") }
-
     fun bookComputer() { println("bookComputer") }
-
     fun cancelBooking() { println("cancelBooking") }
 }
