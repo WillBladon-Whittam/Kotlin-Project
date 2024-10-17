@@ -1,29 +1,36 @@
 package classes
 
-open class User (){
+open class User (private var name:String){
+    private val bookings = mutableListOf<String>()
 
-    open fun printMenu() : String {
+    open fun menu(): String{
         return "1. Search for room by building\n2. Search for room by OS\n3. Book a computer\n4. View Bookings\n5. Cancel Bookings\n6. Exit"
     }
 
-    open fun optionMenu(choice:Int) : Boolean {
-        var running = true
-        when (choice) {
-            1 -> searchRoomByBuilding()
-            2 -> searchRoomByOS()
-            3 -> bookComputer()
-            4 -> viewBooking()
-            5 -> cancelBooking()
-            6 -> running = false
-            else -> println("Invalid")
-        }
-        return running
+    fun getBookings() : List<String> {
+        return bookings
     }
 
-    private fun searchRoomByBuilding() { println("searchRoomByBuilding") }
-    private fun searchRoomByOS() { println("searchRoomByOS") }
-    private fun bookComputer() { println("bookComputer") }
-    private fun viewBooking() { println("viewBooking") }
-    private fun cancelBooking() { println("cancelBooking") }
-    private fun exit() { println("exit") }
+    fun getName() : String {
+        return name
+    }
+
+    fun searchRoomByBuilding(index: Int, university: University) : List<Room>? {
+        if (university.getBuildings().size > index && index >= 0) {
+            return university.getBuildings()[index].getRooms()
+        }
+        return null
+    }
+
+    fun searchRoomByOS() { println("searchRoomByOS") }
+
+    fun bookComputer(computer: String, day: String, time: String) {
+        bookings.add("$computer, $day, $time, $name")
+    }
+
+    fun viewBooking(): List<String> {
+        return bookings
+    }
+
+    fun cancelBooking() { println("cancelBooking") }
 }
