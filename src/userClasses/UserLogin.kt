@@ -1,4 +1,4 @@
-package classes
+package userClasses
 
 class UserLogin {
     //Usernames, Passwords and Admin List - Hard Coded
@@ -12,7 +12,7 @@ class UserLogin {
            if the account is an Admin account
     If correct + Admin = creates an Admin user
                          else creates a user
-    Incorrect returns NULL
+    Incorrect returns null
     **/
     fun login(inputUsername:String, inputPassword:String, users:MutableList<User>) : User? {
         for ((i,username) in usernames.withIndex()) {

@@ -1,5 +1,5 @@
 import session.UserSession
 
 fun main (){
-    UserSession().mainLoop()
+    UserSession().startMenu()
 }
