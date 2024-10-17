@@ -1,31 +1,10 @@
 package classes
 
 class UserLogin {
-    //Usernames, Passwords and Admin - Hard Coded
+    //Usernames, Passwords and Admin List - Hard Coded
     private var usernames = listOf<String>("John","Steve","Bob")
     private var passwords = listOf<String>("123","456","789")
     private var admin = listOf<Boolean>(false,true,false)
-
-    /**
-    Take inputs from the user : Username and password
-    Loops until a successful sign in
-    **/
-//    fun login(users:MutableList<User>) : User {
-//        while (true) {
-//            print("Username : ")
-//            val inputUsername = readln()
-//            print("Password : ")
-//            val inputPassword = readln()
-//
-//            val user = check(inputUsername, inputPassword, users)
-//            if (user == null) {
-//                println("Incorrect username or password")
-//            } else {
-//                println("-----SIGN IN SUCCESSFUL-----")
-//                return user
-//            }
-//        }
-//    }
 
     /**
     Checks if the username is in the usernames list
