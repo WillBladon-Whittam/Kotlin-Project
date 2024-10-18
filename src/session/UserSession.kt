@@ -12,13 +12,17 @@ class UserSession {
 
     init {
         //Hard Coded rooms and bookings
-        university.getBuildings()[0].addRoom(Room("J305",12, listOf("9am-11am", "11am-1pm", "1pm-3pm", "3pm-5pm")))
-        university.getBuildings()[0].addRoom(Room("J312",15, listOf("9am-11am", "1pm-3pm", "3pm-5pm")))
+        val theSpark = university.getBuildings()[0]
+        val herbertCollins = university.getBuildings()[1]
+        theSpark.addRoom(Room("J305",12, listOf("9am-11am", "11am-1pm", "1pm-3pm", "3pm-5pm")))
+        theSpark.addRoom(Room("J312",15, listOf("9am-11am", "1pm-3pm", "3pm-5pm")))
+        herbertCollins.addRoom(Room("HC12",20, listOf("9am-11am", "1pm-3pm", "3pm-5pm")))
 
-        university.getBuildings()[0].getRooms()[0].book("Charlie","Monday",1,"9am-11am")
-        university.getBuildings()[0].getRooms()[0].book("Jerry","Monday",2,"11am-1pm")
-        university.getBuildings()[0].getRooms()[0].book("Peter","Monday",3,"3pm-5pm")
-        university.getBuildings()[0].getRooms()[0].book("Carl","Monday",0,"9am-11am")
+        val j305 = university.getBuildings()[0].getRooms()[0]
+        j305.book("Charlie","Monday",1,"9am-11am")
+        j305.book("Jerry","Monday",7,"11am-1pm")
+        j305.book("Peter","Monday",3,"3pm-5pm")
+        j305.book("Carl","Monday",10,"9am-11am")
     }
 
     fun startMenu() {
