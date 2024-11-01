@@ -1,4 +1,4 @@
-//Author Charles Clark
+//Author - Charles Clark
 package classes
 
 class University(val name: String) {
