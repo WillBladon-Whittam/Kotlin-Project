@@ -6,11 +6,12 @@ package main.kotlin.sessions
 
 import main.kotlin.classes.University
 import main.kotlin.classes.ComputerBooking
+import main.kotlin.classes.UserAccounts
 import java.time.LocalDate
 import java.time.DayOfWeek
 import java.time.format.DateTimeFormatter
 
-class UserSession(private var university: University) {
+class UserSession(private var university: University, private var accounts: UserAccounts) {
     /**
      * Creates a session for the base user.
      * The user can do the following:
@@ -151,7 +152,7 @@ class UserSession(private var university: University) {
         val selectedTimeslot = readlnOrNull()?.toIntOrNull() ?: 0
 
         // Check a valid range was entered
-        if (selectedDay !in 1..map.entries.elementAt(selectedDay-1).value.size) {
+        if (selectedTimeslot !in 1..map.entries.elementAt(selectedTimeslot-1).value.size) {
             println("Invalid Option")
             return
         }
@@ -160,8 +161,11 @@ class UserSession(private var university: University) {
         val timeslot = map.entries.elementAt(selectedDay-1).value[selectedTimeslot-1]
         val day = map.entries.elementAt(selectedDay-1).key
 
+        // Get logged in User
+        val user = accounts.getUsers().find { it.loggedIn } ?: return
+
         // Add booking
-        foundComputer.addBooking(ComputerBooking(computerGlobalID, day, timeslot, "User"))
+        foundComputer.addBooking(ComputerBooking(computerGlobalID, day, timeslot, user))
 
         println("$computerGlobalID booked for Computer ${foundComputer.computerNumber} in " +
                 "${foundComputer.computerRoom.building.code}${foundComputer.computerRoom.roomNumber} " +
@@ -174,7 +178,9 @@ class UserSession(private var university: University) {
             for (room in building.getRooms()) {
                 for (computer in room.getComputers()) {
                     for (booking in computer.getBookings()) {
-                        foundBookings.add(booking)
+                        if (booking.student.loggedIn) {
+                            foundBookings.add(booking)
+                        }
                     }
                 }
             }
@@ -189,7 +195,7 @@ class UserSession(private var university: University) {
          * To find all the bookings - I just iterate over all computers in the university and display them.
          * When integrating it would make sense to add the bookings to a User object.
          *
-         * Currently, this shows every booking for all users, this will be fixed when integrated with Eds stuff
+         * During integration, only show bookings from the logged-in user
          */
         val allBookings = this.getBookings()
         if (allBookings.isEmpty()) {
@@ -198,7 +204,9 @@ class UserSession(private var university: University) {
         }
         println("Your bookings:")
         for ((i, booking) in allBookings.withIndex()) {
-            println("${i+1}. ${booking.computerId} on ${booking.day} at ${booking.timeSlot}")
+            if (booking.student.loggedIn) {
+                println("${i+1}. ${booking.computerId} on ${booking.day} at ${booking.timeSlot}")
+            }
         }
         println("") // New line
         return true
@@ -208,7 +216,7 @@ class UserSession(private var university: University) {
         /**
          * Cancel a booking.
          *
-         * Similar to view booking. When integrating it would make sense to remove the bookings from the User object.
+         * During integration, only cancel bookings from the logged-in user
          */
         val allBookings = this.getBookings()
 

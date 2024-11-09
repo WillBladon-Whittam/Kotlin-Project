@@ -5,13 +5,10 @@
 
 package main.kotlin.sessions
 
-import main.kotlin.classes.Computer
-import main.kotlin.classes.ComputerBooking
-import main.kotlin.classes.University
-import main.kotlin.classes.User
+import main.kotlin.classes.*
 
 class LoginSession {
-    private val users = mutableListOf<User>()
+    val accounts =  UserAccounts()
     var university = University("Solent")
 
     init {
@@ -22,9 +19,13 @@ class LoginSession {
          * These are initialized in the LoginSession so the configuration is kept when logging in and out.
          * e.g. an admin user adds a room, that room needs to stay when they log out and a user logs in.
          */
-        users.add(User("John", "123", false))
-        users.add(User("Steve", "456", true))
-        users.add(User("Bob", "789", false))
+        val john = RegularUser("John", "123", "john@outlook.com")
+        val steve = AdminUser("Steve", "456", "steve@hotmail.co.uk")
+        val bob = RegularUser("Bob", "789", "bob@solent.ac.uk")
+
+        accounts.addUser(john)
+        accounts.addUser(steve)
+        accounts.addUser(bob)
 
         // Creating Building (Buildings must be created via the University - buildings cant exist without a university)
         val sparkBuilding = university.createBuilding("The Spark", "TS")
@@ -51,44 +52,83 @@ class LoginSession {
 
         // Hard coded bookings
         sparkBuildingRoom1.getComputers()[0].addBooking(ComputerBooking
-            (sparkBuildingRoom1.getComputers()[0].globalId, "Monday", "9am-11am", "Charlie"))
+            (sparkBuildingRoom1.getComputers()[0].globalId, "Monday", "9am-11am", john))
         sparkBuildingRoom1.getComputers()[0].addBooking(ComputerBooking(
-            sparkBuildingRoom1.getComputers()[0].globalId, "Monday", "11am-1pm", "Jerry"))
+            sparkBuildingRoom1.getComputers()[0].globalId, "Monday", "11am-1pm", steve))
         sparkBuildingRoom1.getComputers()[2].addBooking(ComputerBooking
-            (sparkBuildingRoom1.getComputers()[2].globalId, "Monday", "9am-11am", "Charlie"))
+            (sparkBuildingRoom1.getComputers()[2].globalId, "Monday", "9am-11am", john))
         sparkBuildingRoom1.getComputers()[3].addBooking(ComputerBooking(
-            sparkBuildingRoom1.getComputers()[3].globalId, "Monday", "11am-1pm", "Jerry"))
+            sparkBuildingRoom1.getComputers()[3].globalId, "Monday", "11am-1pm", steve))
     }
 
-    //Start Menu Screen
-    fun startMenu(): Boolean? {
+    fun startMenu(): User? {
+        /**
+         * Start Menu
+         */
         var running = true
         println("----- Booking System -----")
         while (running) {
-            val choice = println("1. Login\n2. Exit").let { readlnOrNull()?.toIntOrNull() ?: 0 }
+            val choice = println("1. Login\n2. Signup\n3. Exit").let { readlnOrNull()?.toIntOrNull() ?: 0 }
             when (choice) {
                 1 -> { return login() }
-                2 -> running = false
+                2 -> { this.signup() }
+                3 -> running = false
                 else -> println("Invalid")
             }
         }
         return null
     }
 
-    //Login loop
-    private fun login(): Boolean {
+    private fun login(): User {
+        /**
+         * Login to the booking system
+         */
         var user: User? = null
         while (user == null) {
             val username = print("Username : ").let { readln() }
             val password = print("Password : ").let { readln() }
-            user = users.find { it.name == username && it.password == password }
+            user = accounts.getUsers().find { it.name == username && it.password == password }
             if (user != null) {
                 println("Welcome ${user.name}!")
+                user.loggedIn = true
             } else {
                 println("Invalid username or password")
             }
         }
-        return user.admin
+        return user
+    }
+
+    private fun signup() {
+        /**
+         * Signup / Create an account
+         *
+         * This was added during integration to allow users that don't have accounts already to create a regular account
+         */
+        println("Create an Account:")
+        print("Enter a Name: ")
+        val name = readlnOrNull() ?: run {
+            println("Invalid Username")
+            return
+        }
+        val foundUsername = accounts.getUsers().find { it.name == name }
+        if (foundUsername != null) {
+            println("The username is already in use!")
+            return
+        }
+        accounts.getUsers().find { it.name == name }
+        print("Enter a password: ")
+        val password = readlnOrNull() ?: run {
+            println("Invalid Password")
+            return
+        }
+        print("Enter Your Contact E-mail: ")
+        val contact = readlnOrNull() ?: run {
+            println("Invalid Email")
+            return
+        }
+        println("Your details - name: $name, password: ${"*".repeat(password.length)}, E-mail: $contact, ")
+
+        print(accounts.addUser(RegularUser(name, password, contact)))
     }
 
 }

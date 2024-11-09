@@ -1,5 +1,6 @@
 /**
  * @author  William Bladon-Whittam
+ * @author  Edward Kirr
  */
 
 package main.kotlin.classes
@@ -39,6 +40,33 @@ class Building(val name: String, val code: String, private val university: Unive
         return room
     }
 
+    fun updateRoomType(room: Room, newType: String) {
+        /**
+         * To update a room type, the room in the rooms list, is replaced with an updated class for the room
+         * type, all values and computers are transferred
+         */
+        val index = rooms.indexOf(room)
+        when (newType) {
+            "Windows" -> {
+                rooms[index] = WindowsRoom(room.roomNumber, room.building, room.timeSlots)
+            }
+            "Linux" -> {
+                rooms[index] = LinuxRoom(room.roomNumber, room.building, room.timeSlots)
+            }
+            "Mac" -> {
+                rooms[index] = MacRoom(room.roomNumber, room.building, room.timeSlots)
+            }
+        }
+        // Add computers to the new room type
+        for (computer in room.getComputers()) {
+            rooms[index].addComputer(computer)
+        }
+    }
+
+    fun deleteRoom(room: Room) {
+        rooms.remove(room)
+    }
+
     fun findRoomByOS (searchOS: String) : List<Room> {
         val roomsFound = mutableListOf<Room>()
         for (currentRoom in rooms) {
@@ -47,6 +75,10 @@ class Building(val name: String, val code: String, private val university: Unive
             }
         }
         return roomsFound
+    }
+
+    fun findRoomByNumber (number: Int) : Room? {
+        return rooms.find { it.roomNumber == number }
     }
 
     override fun toString(): String {

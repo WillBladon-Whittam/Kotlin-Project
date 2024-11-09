@@ -5,8 +5,9 @@
 
 package main.kotlin.classes
 
-abstract class Room(val roomNumber: Int, val building: Building,
-                    val timeSlots: List<String> = listOf("9am-11am", "11am-1pm", "1pm-3pm", "3pm-5pm")) {
+abstract class Room(
+    var roomNumber: Int, val building: Building,
+    var timeSlots: List<String> = listOf("9am-11am", "11am-1pm", "1pm-3pm", "3pm-5pm")) {
     /**
      * Abstract room class to store the computers of the room
      *
@@ -48,6 +49,12 @@ abstract class Room(val roomNumber: Int, val building: Building,
             }
         }
         return bookings
+    }
+
+    fun updateComputersGlobalId() {
+        for (computer in computers) {
+            computer.updateGlobalId()
+        }
     }
 
     override fun toString(): String {

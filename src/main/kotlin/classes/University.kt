@@ -36,6 +36,6 @@ class University(val name: String) {
     }
 
     override fun toString() : String {
-        return "main.kotlin.classes.University: $name Buildings: $buildings"
+        return "University: $name Buildings: $buildings"
     }
 }

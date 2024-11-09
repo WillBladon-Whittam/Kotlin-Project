@@ -8,11 +8,11 @@ data class ComputerBooking(
     val computerId: String,
     val day: String,
     val timeSlot: String,
-    val studentId: String
+    val student: User
 )
 
 class Computer(val computerNumber: Int, val computerRoom: Room,
-               private val timeSlots: List<String> = listOf("9am-11am", "11am-1pm", "1pm-3pm", "3pm-5pm")) {
+               var timeSlots: List<String> = listOf("9am-11am", "11am-1pm", "1pm-3pm", "3pm-5pm")) {
     /**
      * Computer object to store the bookings of the Computer
      * Bookings are stored in a mutable set (using a set over a list as there can't be duplicate bookings)
@@ -86,6 +86,10 @@ class Computer(val computerNumber: Int, val computerRoom: Room,
             }
         }
         return availableBookingSlots
+    }
+
+    fun updateGlobalId() {
+        globalId = "${computerRoom.building.code}${computerRoom.roomNumber}-$computerNumber"
     }
 
     override fun toString() : String {
