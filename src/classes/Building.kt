@@ -19,7 +19,7 @@ class Building(val name: String) {
         return "Room Added Successfully"
     }
 
-    fun editRoomDetails(index: Int, newType: Int): String {
+    fun editRoomDetails(index: Int, updatedType: Int, updatedRoomNumber: Int, updatedTimeSlot: List<String> = listOf("9am-11am", "11am-1pm", "1pm-3pm", "3pm-5pm")) : String {
         // Parameters: index to specify the room, newType to change the type to a different type
         // Responsible for changing the room type by changing what subclass it is.
         // Returns: A string message to notify whether it was successful or not
@@ -31,11 +31,13 @@ class Building(val name: String) {
         if (index < 1 || index > rooms.count()) {
             return "Please pick a room from within the range \n"
         } else {
+            if (rooms.any { it.roomNumber == updatedRoomNumber && rooms[index - 1] != it }) {
+                return "Room number $updatedRoomNumber is already taken. Please choose a different room number.\n" }
             val room = rooms[index - 1]
-            val newRoom = when {
-                newType == 1 && room is LinuxRoom || room is MacRoom -> WindowsRoom(room.roomNumber)
-                newType == 2 && room is WindowsRoom || room is MacRoom -> LinuxRoom(room.roomNumber)
-                newType == 3 && room is WindowsRoom || room is LinuxRoom -> MacRoom(room.roomNumber)
+            val newRoom = when (updatedType) {
+                1 -> WindowsRoom(updatedRoomNumber, updatedTimeSlot)
+                2 -> LinuxRoom(updatedRoomNumber, updatedTimeSlot)
+                3 -> MacRoom(updatedRoomNumber,updatedTimeSlot)
                 else -> return "Invalid OS or Room is already of that OS type \n"
             }
             rooms[index - 1] = newRoom
@@ -56,6 +58,11 @@ class Building(val name: String) {
         }
     }
 
+    fun getRooms(): List<Room> {
+        // Provides a Room object list accessible to the interface
+        return rooms
+    }
+
     override fun toString(): String {
         // Overrides the method to print an itemised list of all the rooms and its types
         // Returns: A string list of rooms
@@ -66,7 +73,7 @@ class Building(val name: String) {
                 is LinuxRoom -> "LinuxRoom"
                 else -> "MacRoom"
             }
-            roomList.append("${index + 1}. Room Number: ${room.roomNumber} Room Type: $roomType \n")
+            roomList.append("${index + 1}. Room Number: ${room.roomNumber} Room Type: $roomType  Timeslot: ${room.timeSlots}\n ")
         }
         return roomList.toString()
     }

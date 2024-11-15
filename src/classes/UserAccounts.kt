@@ -6,7 +6,7 @@
 
 package src.classes
 
-import classes.Admin
+import classes.AdminUser
 import classes.User
 
 
@@ -23,12 +23,12 @@ class UserAccounts {
         // Returns: A string message to notify what user was added.
         users.add(user)
         return when (user) {
-            is Admin -> "Admin user added: ${user.name} \n"
+            is AdminUser -> "Admin user added: ${user.name} \n"
             else -> "Regular user added: ${user.name} \n"
         }
     }
 
-    fun editUserDetails(index: Int, name: String?, email: String?): String {
+    fun editUserDetails(index: Int, name: String?, password: String?,  email: String?): String {
         // Parameters: index - specify the user, name - to change the user's name, email - to change the user's contact details
         // Responsible for changing the user's name and contact details.
         // Returns: A string message to notify whether it was successful or not
@@ -39,10 +39,9 @@ class UserAccounts {
             return "WARNING: Please pick a user from within the list \n"
         } else {
             val user = users[index - 1]
-            print(user.name)
-            print(user.email)
             if (name != null) user.name = name
             if (email != null) user.email = email
+            if (password != null) user.password = password
             return "User details updated for ${user.name} \n"
         }
     }
@@ -60,13 +59,18 @@ class UserAccounts {
         }
     }
 
+    fun getUsers(): List<User> {
+        // Provide a User Object list accessible to the interface
+        return users
+    }
+
     override fun toString(): String {
         // Overrides the method to print an itemised list of all the users and its account types (i.e. admin, regular
         // Returns: A string list of users
         val userList = StringBuilder()
         for ((index, user) in users.withIndex()) {
             val userType = when (user) {
-                is Admin -> "Admin"
+                is AdminUser -> "Admin"
                 else -> "Regular"
             }
             userList.append("${index + 1}. Name: ${user.name} Type: $userType\n")
