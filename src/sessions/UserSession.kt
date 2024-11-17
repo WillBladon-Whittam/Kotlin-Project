@@ -195,31 +195,6 @@ class UserSession {
         }
     }
 
-//    private fun modifyUser(user: User) {
-//        // Interfaces with the account class' edit user method.
-//        // Responsible for modifying a user's name or email.
-//        // Validation is partially handled, more validation is handled by the class' method
-//        if (user is AdminUser) {
-//            if (accounts.isEmpty()) {
-//                println("No accounts have been created")
-//                println("Returning to menu...")
-//            } else {
-//                println(accounts)
-//                print("Pick an Account: ")
-//                val choice = readln().toInt()
-//                print("Enter The New User Name (Leave blank, if unchanged): ")
-//                val name = readln()
-//                print("Enter the new contact e-mail (Leave blank, if unchanged): ")
-//                val email = readln()
-//                val add = accounts.editUserDetails(choice, name, email)
-//                println(add)
-//            }
-//        } else {
-//            println("Elevated Privileges Required. Please Contact Your Administrator")
-//            println("Returning to menu...")
-//        }
-//    }
-
     private fun modifyUser(user: User) {
         // Interfaces with the account class' edit user method.
         // Responsible for modifying a user's name or email.
