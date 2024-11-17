@@ -7,7 +7,9 @@ package main.kotlin.classes
 
 abstract class Room(
     var roomNumber: Int, val building: Building,
-    var timeSlots: List<String> = listOf("9am-11am", "11am-1pm", "1pm-3pm", "3pm-5pm")) {
+    var timeSlots: List<String> = listOf("9am-11am", "11am-1pm", "1pm-3pm", "3pm-5pm"),
+    val daysOfTheWeek: List<String> = listOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+) {
     /**
      * Abstract room class to store the computers of the room
      *
@@ -62,7 +64,10 @@ abstract class Room(
     }
 }
 
-class WindowsRoom(roomNumber: Int, building: Building, timeSlots: List<String>) : Room(roomNumber, building, timeSlots) {
+class WindowsRoom(roomNumber: Int,
+                  building: Building,
+                  timeSlots: List<String>,
+                  daysOfTheWeek: List<String>) : Room(roomNumber, building, timeSlots, daysOfTheWeek) {
     /**
      * Room with Windows Operating systems on the Computers
      */
@@ -71,7 +76,10 @@ class WindowsRoom(roomNumber: Int, building: Building, timeSlots: List<String>) 
     }
 }
 
-class MacRoom(roomNumber: Int, building: Building, timeSlots: List<String>) : Room(roomNumber, building, timeSlots) {
+class MacRoom(roomNumber: Int,
+              building: Building,
+              timeSlots: List<String>,
+              daysOfTheWeek: List<String>) : Room(roomNumber, building, timeSlots, daysOfTheWeek) {
     /**
      * Room with MAC Operating systems on the Computers
      */
@@ -80,7 +88,10 @@ class MacRoom(roomNumber: Int, building: Building, timeSlots: List<String>) : Ro
     }
 }
 
-class LinuxRoom(roomNumber: Int, building: Building, timeSlots: List<String>) : Room(roomNumber, building, timeSlots) {
+class LinuxRoom(roomNumber: Int,
+                building: Building,
+                timeSlots: List<String>,
+                daysOfTheWeek: List<String>) : Room(roomNumber, building, timeSlots, daysOfTheWeek) {
     /**
      * Room with Linux Operating systems on the Computers
      */

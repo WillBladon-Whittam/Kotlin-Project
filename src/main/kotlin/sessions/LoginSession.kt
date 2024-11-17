@@ -1,5 +1,4 @@
 /**
- * @author  William Bladon-Whittam
  * @author  Charlie Clark
  */
 
@@ -54,11 +53,11 @@ class LoginSession {
         sparkBuildingRoom1.getComputers()[0].addBooking(ComputerBooking
             (sparkBuildingRoom1.getComputers()[0].globalId, "Monday", "9am-11am", john))
         sparkBuildingRoom1.getComputers()[0].addBooking(ComputerBooking(
-            sparkBuildingRoom1.getComputers()[0].globalId, "Monday", "11am-1pm", steve))
+            sparkBuildingRoom1.getComputers()[0].globalId, "Monday", "11am-1pm", bob))
         sparkBuildingRoom1.getComputers()[2].addBooking(ComputerBooking
             (sparkBuildingRoom1.getComputers()[2].globalId, "Monday", "9am-11am", john))
         sparkBuildingRoom1.getComputers()[3].addBooking(ComputerBooking(
-            sparkBuildingRoom1.getComputers()[3].globalId, "Monday", "11am-1pm", steve))
+            sparkBuildingRoom1.getComputers()[3].globalId, "Monday", "11am-1pm", bob))
     }
 
     fun startMenu(): User? {
@@ -105,8 +104,8 @@ class LoginSession {
          * This was added during integration to allow users that don't have accounts already to create a regular account
          */
         println("Create an Account:")
-        print("Enter a Name: ")
-        val name = readlnOrNull() ?: run {
+        println("Enter a Name: ")
+        val name = readlnOrNull()?.takeIf { it.isNotBlank() } ?: run {
             println("Invalid Username")
             return
         }
@@ -116,13 +115,13 @@ class LoginSession {
             return
         }
         accounts.getUsers().find { it.name == name }
-        print("Enter a password: ")
-        val password = readlnOrNull() ?: run {
+        println("Enter a password: ")
+        val password = readlnOrNull()?.takeIf { it.isNotBlank() } ?: run {
             println("Invalid Password")
             return
         }
-        print("Enter Your Contact E-mail: ")
-        val contact = readlnOrNull() ?: run {
+        println("Enter Your Contact E-mail: ")
+        val contact = readlnOrNull()?.takeIf { it.isNotBlank() } ?: run {
             println("Invalid Email")
             return
         }

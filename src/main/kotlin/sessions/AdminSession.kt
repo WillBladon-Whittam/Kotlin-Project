@@ -1,5 +1,4 @@
 /**
- * @author  William Bladon-Whittam
  * @author  Charlie Clark
  * @author  Edward Kirr
  */
@@ -44,38 +43,23 @@ class AdminSession(private var university: University, private var accounts: Use
         return
     }
 
-    private fun findRoom(): Room? {
-        /**
-         * Prompt the user for the building and the room number to find there room.
-         */
-        print("Enter a Building Name: ")
-        val buildingName = readlnOrNull() ?: ""
-        val building = university.findBuildingByName(buildingName) ?: run {
-            println("Building Not Found!")
-            return null
-        }
-
-        print("Pick a Room: ")
-        val roomNumber = readlnOrNull()?.toIntOrNull() ?: run {
-            println("Invalid Number")
-            return null
-        }
-        val room = building.findRoomByNumber(roomNumber) ?: run {
-            println("Room Not Found!")
-            return null
-        }
-
-        println("Room Found!")
-        println(room)
-        return room
-    }
-
     private fun addRoom() {
         /**
          * Add a new room
          */
         val building = buildingChoice()
-        val roomNumber = print("Room number : ").let { readlnOrNull() ?: "Null" }
+
+        println("Room Number: ")
+        val roomNumber = readlnOrNull()?.toIntOrNull()?: run {
+            println("Invalid Room Number!")
+            return
+        }
+
+        if (building.findRoomByNumber(roomNumber) != null) {
+            println("Room already exists!")
+            return
+        }
+
         val numComputers = print("Number of computers : ").let { readlnOrNull()?.toIntOrNull() ?: 0 }
         println("Enter time slots separated by commas (e.g., 9am-11am, 11am-1pm, 1pm-3pm):")
         val input = readlnOrNull()
@@ -107,9 +91,9 @@ class AdminSession(private var university: University, private var accounts: Use
         }
 
         val room = when(roomType) {
-            "Windows" -> building.createWindowsRoom(roomNumber.toInt(), timeSlots)
-            "Linux" -> building.createLinuxRoom(roomNumber.toInt(), timeSlots)
-            "Mac" -> building.createMacRoom(roomNumber.toInt(), timeSlots)
+            "Windows" -> building.createWindowsRoom(roomNumber, timeSlots)
+            "Linux" -> building.createLinuxRoom(roomNumber, timeSlots)
+            "Mac" -> building.createMacRoom(roomNumber, timeSlots)
             else -> return
         }
 
@@ -126,7 +110,8 @@ class AdminSession(private var university: University, private var accounts: Use
          * During integration, the checks for the user type can be removed as the user is already logged into
          * their session. Added the modification of rooms timeslots and room numbers.
          */
-        val room = this.findRoom() ?: return
+        val building = buildingChoice()
+        val room = roomChoice(building)
 
         println("What details would you like to change?\n" +
                 "1. Room Number\n" +
@@ -191,7 +176,8 @@ class AdminSession(private var university: University, private var accounts: Use
         /**
          * Delete a room
          */
-        val room = this.findRoom() ?: return
+        val building = buildingChoice()
+        val room = roomChoice(building)
 
         println("Are you sure you want to delete this room? Y/N")
         val choice = readlnOrNull() ?: "N"
@@ -213,7 +199,7 @@ class AdminSession(private var university: University, private var accounts: Use
          */
         println("Create an Account:")
         print("Enter a Name: ")
-        val name = readlnOrNull() ?: run {
+        val name = readlnOrNull()?.takeIf { it.isNotBlank() } ?: run {
             println("Invalid Username")
             return
         }
@@ -222,14 +208,14 @@ class AdminSession(private var university: University, private var accounts: Use
             println("The username is already in use!")
             return
         }
-        accounts.getUsers().find { it.name == name }
+
         print("Enter a password: ")
-        val password = readlnOrNull() ?: run {
+        val password = readlnOrNull()?.takeIf { it.isNotBlank() } ?: run {
             println("Invalid Password")
             return
         }
         print("Enter Your Contact E-mail: ")
-        val contact = readlnOrNull() ?: run {
+        val contact = readlnOrNull()?.takeIf { it.isNotBlank() } ?: run {
             println("Invalid Email")
             return
         }
@@ -341,7 +327,7 @@ class AdminSession(private var university: University, private var accounts: Use
          */
         val building = buildingChoice()
         val room = roomChoice(building)
-        val day = print("Day : ").let { readln()}
+        val day = dayChoice(room)
         val bookings = room.getBookingsByDay(day)
         printBookings(bookings, room)
     }
@@ -351,6 +337,7 @@ class AdminSession(private var university: University, private var accounts: Use
          * Prints all the buildings in the university and returns the selected building
          */
         while (true) {
+            println("Building Name: ")
             for ((i, building) in university.getBuildings().withIndex()) {
                 println("${i + 1}. ${building.name}")
             }
@@ -366,6 +353,7 @@ class AdminSession(private var university: University, private var accounts: Use
          * Prints all the rooms in the building and returns the selected room
          */
         while (true) {
+            println("Room Number: ")
             for ((i, room) in building.getRooms().withIndex()) {
                 println("${i + 1}. ${room.roomNumber}")
             }
@@ -376,11 +364,33 @@ class AdminSession(private var university: University, private var accounts: Use
         }
     }
 
+    private fun dayChoice(room: Room) : String {
+        /**
+         * Prints all the days to book in a room and returns the selected day
+         */
+        while (true) {
+            println("Please select one of the following available days")
+            for ((i, key) in room.daysOfTheWeek.withIndex()) {
+                println("${i + 1}. $key")
+            }
+            val selectedDay = readlnOrNull()?.toIntOrNull() ?: 0
+
+            if (selectedDay !in 1..room.daysOfTheWeek.size) {
+                println("Invalid Option")
+                continue
+            }
+            return room.daysOfTheWeek[selectedDay-1]
+        }
+    }
+
     private fun printBookings(bookings: List<ComputerBooking>, room: Room) {
         /**
          * Prints all the bookings for a selected room,day in a timetable format
          *
          * This needed updating while integrating, the booking implementation was different between Will and Charlie.
+         * Charlie used a list of strings for the booking, while Will used a ComputerBooking dataclass to store bookings
+         * This function was converted to take the bookings parameter as a List of ComputerBookings, instead of a List
+         * of strings.
          */
         val computers = room.getComputers()
         val timeSlots = room.timeSlots

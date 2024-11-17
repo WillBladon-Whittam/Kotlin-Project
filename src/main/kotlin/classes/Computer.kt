@@ -12,18 +12,18 @@ data class ComputerBooking(
 )
 
 class Computer(val computerNumber: Int, val computerRoom: Room,
-               var timeSlots: List<String> = listOf("9am-11am", "11am-1pm", "1pm-3pm", "3pm-5pm")) {
+               var timeSlots: List<String> = listOf("9am-11am", "11am-1pm", "1pm-3pm", "3pm-5pm"),
+               private val daysOfTheWeek: List<String> = listOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+) {
     /**
      * Computer object to store the bookings of the Computer
      * Bookings are stored in a mutable set (using a set over a list as there can't be duplicate bookings)
      * The set will store a ComputerBooking data class with the booking information
+     * The booking information includes the user that booked, so other users cannot see/edit another users booking.
      *
-     * Currently assuming only 1 User. The final project will need to assign a booking to a user.
-     * This will be done when integrating
      */
     var globalId: String = "${computerRoom.building.code}${computerRoom.roomNumber}-$computerNumber"
 
-    private val daysOfTheWeek = listOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
     private val bookings: MutableSet<ComputerBooking> = mutableSetOf()
 
     fun addBooking(booking: ComputerBooking): Boolean {

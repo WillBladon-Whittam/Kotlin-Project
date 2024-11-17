@@ -1,10 +1,13 @@
-/**
- * @author  William Bladon-Whittam
- * @author  Edward Kirr
- */
+////////////////////////////// User.kt ////////////////////////////////////
+///////////////////////// Author: Edward Kirr ////////////////////////////
+///////////// Description: User class to handle creation of /////////////
+////////// different types of users and inform the interface ///////////
+///////////////////////////////////////////////////////////////////////
 
 /**
- * During integration a loggedIn attribute needed to be added to track which users are logged in
+ * During integration a loggedIn attribute needed to be added to track which users are logged in.
+ * This is to track what user is logged in, as if a user is logged in they should not be able to delete their own
+ * account.
  */
 
 package main.kotlin.classes

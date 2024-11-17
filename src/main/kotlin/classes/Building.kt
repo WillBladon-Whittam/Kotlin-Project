@@ -20,22 +20,26 @@ class Building(val name: String, val code: String, private val university: Unive
     }
 
     fun createWindowsRoom(roomNumber: Int,
-                          timeslots: List<String> = listOf("9am-11am", "11am-1pm", "1pm-3pm", "3pm-5pm")): WindowsRoom {
-        val room = WindowsRoom(roomNumber, this, timeslots)
+                          timeslots: List<String> = listOf("9am-11am", "11am-1pm", "1pm-3pm", "3pm-5pm"),
+                          daysOfTheWeek: List<String> = listOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+    ): WindowsRoom {
+        val room = WindowsRoom(roomNumber, this, timeslots, daysOfTheWeek)
         this.addRoom(room)
         return room
     }
 
     fun createMacRoom(roomNumber: Int,
-                      timeslots: List<String> = listOf("9am-11am", "11am-1pm", "1pm-3pm", "3pm-5pm")): MacRoom {
-        val room = MacRoom(roomNumber, this, timeslots)
+                      timeslots: List<String> = listOf("9am-11am", "11am-1pm", "1pm-3pm", "3pm-5pm"),
+                      daysOfTheWeek: List<String> = listOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")): MacRoom {
+        val room = MacRoom(roomNumber, this, timeslots, daysOfTheWeek)
         this.addRoom(room)
         return room
     }
 
     fun createLinuxRoom(roomNumber: Int,
-                        timeslots: List<String> = listOf("9am-11am", "11am-1pm", "1pm-3pm", "3pm-5pm")): LinuxRoom {
-        val room = LinuxRoom(roomNumber, this, timeslots)
+                        timeslots: List<String> = listOf("9am-11am", "11am-1pm", "1pm-3pm", "3pm-5pm"),
+                        daysOfTheWeek: List<String> = listOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")): LinuxRoom {
+        val room = LinuxRoom(roomNumber, this, timeslots, daysOfTheWeek)
         this.addRoom(room)
         return room
     }
@@ -48,13 +52,13 @@ class Building(val name: String, val code: String, private val university: Unive
         val index = rooms.indexOf(room)
         when (newType) {
             "Windows" -> {
-                rooms[index] = WindowsRoom(room.roomNumber, room.building, room.timeSlots)
+                rooms[index] = WindowsRoom(room.roomNumber, room.building, room.timeSlots, room.daysOfTheWeek)
             }
             "Linux" -> {
-                rooms[index] = LinuxRoom(room.roomNumber, room.building, room.timeSlots)
+                rooms[index] = LinuxRoom(room.roomNumber, room.building, room.timeSlots, room.daysOfTheWeek)
             }
             "Mac" -> {
-                rooms[index] = MacRoom(room.roomNumber, room.building, room.timeSlots)
+                rooms[index] = MacRoom(room.roomNumber, room.building, room.timeSlots, room.daysOfTheWeek)
             }
         }
         // Add computers to the new room type
