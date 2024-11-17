@@ -244,6 +244,7 @@ class UserSession(private var university: University, private var accounts: User
                             computer.deleteBooking(booking)
                             println("Deleted booking for ${booking.computerId} " +
                                     "on ${booking.day} at ${booking.timeSlot}")
+                            return
                        }
                     }
                 }
