@@ -239,13 +239,15 @@ class UserSession(private var university: University, private var accounts: User
             for (room in building.getRooms()) {
                 for (computer in room.getComputers()) {
                     for (booking in computer.getBookings()) {
-                        counter += 1
-                        if (deletedBooking == counter) {
-                            computer.deleteBooking(booking)
-                            println("Deleted booking for ${booking.computerId} " +
-                                    "on ${booking.day} at ${booking.timeSlot}")
-                            return
-                       }
+                        if (booking.student.loggedIn) {
+                            counter += 1
+                            if (deletedBooking == counter) {
+                                computer.deleteBooking(booking)
+                                println("Deleted booking for ${booking.computerId} " +
+                                        "on ${booking.day} at ${booking.timeSlot}")
+                                return
+                            }
+                        }
                     }
                 }
             }
