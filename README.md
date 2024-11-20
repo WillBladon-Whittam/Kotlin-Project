@@ -1,4 +1,4 @@
-# COM534 Group Kotlin Project - Will Bladon-Whittam (Part A)
+# COM534 Group Kotlin Project - Fully Intergrated Code
 
 ## Setup
 
@@ -17,22 +17,24 @@ Alternatively:
 
 ## Useful default hard-coded information while running:
 
+```
 University: Solent
-  Buildings:
-    - Name: The Spark
-      Code: TS
-      Rooms:
-        - Room Number: 101
-          Type: Windows Room
-          Computers: 10
-
-        - Room Number: 202
-          Type: Linux Room
-          Computers: 8
-
-    - Name: Herbert Collins
-      Code: HS
-      Rooms:
-        - Room Number: 303
-          Type: Mac Room
-          Computers: 2
+    Buildings:
+        Name: The Spark
+        Code: TS
+        Rooms:
+            Room Number: 101
+            Type: Windows Room
+            Computers: 10
+ 
+            Room Number: 202
+            Type: Linux Room
+            Computers: 8
+ 
+        Name: Herbert Collins
+        Code: HS
+        Rooms:
+            Room Number: 303
+            Type: Mac Room
+            Computers: 2
+```
