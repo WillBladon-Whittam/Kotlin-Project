@@ -22,7 +22,7 @@ class Computer(val computerNumber: Int, val computerRoom: Room) {
      */
     var globalId: String = "${computerRoom.building.code}${computerRoom.roomNumber}-$computerNumber"
 
-    private val daysOfTheWeek = listOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+    private val daysOfTheWeek = listOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
     private val timeSlots = listOf("9am-11am", "11am-1pm", "1pm-3pm", "3pm-5pm")
     private val bookings: MutableSet<ComputerBooking> = mutableSetOf()
 

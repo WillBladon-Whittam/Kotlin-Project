@@ -181,7 +181,7 @@ class UserSession {
         val selectedTimeslot = readlnOrNull()?.toIntOrNull() ?: 0
 
         // Check a valid range was entered
-        if (selectedDay !in 1..map.entries.elementAt(selectedDay-1).value.size) {
+        if (selectedTimeslot !in 1..map.entries.elementAt(selectedDay-1).value.size) {
             println("Invalid Option")
             return
         }
