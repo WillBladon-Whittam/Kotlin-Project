@@ -3,7 +3,7 @@
  * @author  Edward Kirr
  */
 
-package main.kotlin.classes
+package classes
 
 class Building(val name: String, val code: String, private val university: University) {
     /**

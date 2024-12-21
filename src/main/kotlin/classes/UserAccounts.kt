@@ -1,13 +1,13 @@
 //////////////////////////// UserAccounts.kt //////////////////////////////////
 ///////////////////////// Author: Edward Kirr ////////////////////////////////
-///// Description: User Accounts class to handle storage of different ///////
+///// Description: interfaces.User Accounts class to handle storage of different ///////
 //// user types (admin, regular) and operations i.e. deleting, editing /////
 ///////////////////////////////////////////////////////////////////////////
 
-package main.kotlin.classes
+package classes
 
 class UserAccounts {
-    // User Accounts class, responsible for storing users in a list and all its operations,
+    // interfaces.User Accounts class, responsible for storing users in a list and all its operations,
     // editing the user's details and delete a room from the list
     private var users = mutableListOf<User>()
     // Use of aggregation to store users in the mutable list

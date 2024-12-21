@@ -2,7 +2,7 @@
  * @author  William Bladon-Whittam
  */
 
-package main.kotlin.classes
+package classes
 
 data class ComputerBooking(
     val computerId: String,

@@ -2,7 +2,7 @@
  * @author  William Bladon-Whittam
  */
 
-package main.kotlin.classes
+package classes
 
 class University(val name: String) {
     /**

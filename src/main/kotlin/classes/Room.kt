@@ -3,7 +3,7 @@
  * @author  Charlie Clark
  */
 
-package main.kotlin.classes
+package classes
 
 abstract class Room(
     var roomNumber: Int, val building: Building,
