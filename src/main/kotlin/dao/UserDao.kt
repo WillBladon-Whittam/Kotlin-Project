@@ -11,6 +11,9 @@ import classes.User
 import org.jetbrains.exposed.sql.*
 
 class UserDao : UsersDaoInterface {
+    /**
+     * User Data Access Object
+     */
     init {
         transaction {
             SchemaUtils.create(UsersTable)
@@ -27,7 +30,6 @@ class UserDao : UsersDaoInterface {
                 it[loggedIn] = user.loggedIn
                 it[userType] = user.getUserType()
             }[UsersTable.id]
-            println(userId)
         }
         return userId
     }
@@ -58,6 +60,4 @@ class UserDao : UsersDaoInterface {
         }
         return user
     }
-
-
 }

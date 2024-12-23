@@ -21,25 +21,28 @@ class Building(val name: String, val code: String, private val university: Unive
 
     fun createWindowsRoom(roomNumber: Int,
                           timeslots: List<String> = listOf("9am-11am", "11am-1pm", "1pm-3pm", "3pm-5pm"),
-                          daysOfTheWeek: List<String> = listOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+                          daysOfTheWeek: List<String> = listOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday"),
+                          numOfComputers: Int
     ): WindowsRoom {
-        val room = WindowsRoom(roomNumber, this, timeslots, daysOfTheWeek)
+        val room = WindowsRoom(roomNumber, this, timeslots, daysOfTheWeek, numOfComputers)
         this.addRoom(room)
         return room
     }
 
     fun createMacRoom(roomNumber: Int,
                       timeslots: List<String> = listOf("9am-11am", "11am-1pm", "1pm-3pm", "3pm-5pm"),
-                      daysOfTheWeek: List<String> = listOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")): MacRoom {
-        val room = MacRoom(roomNumber, this, timeslots, daysOfTheWeek)
+                      daysOfTheWeek: List<String> = listOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday"),
+                      numOfComputers: Int): MacRoom {
+        val room = MacRoom(roomNumber, this, timeslots, daysOfTheWeek, numOfComputers)
         this.addRoom(room)
         return room
     }
 
     fun createLinuxRoom(roomNumber: Int,
                         timeslots: List<String> = listOf("9am-11am", "11am-1pm", "1pm-3pm", "3pm-5pm"),
-                        daysOfTheWeek: List<String> = listOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")): LinuxRoom {
-        val room = LinuxRoom(roomNumber, this, timeslots, daysOfTheWeek)
+                        daysOfTheWeek: List<String> = listOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday"),
+                        numOfComputers: Int): LinuxRoom {
+        val room = LinuxRoom(roomNumber, this, timeslots, daysOfTheWeek, numOfComputers)
         this.addRoom(room)
         return room
     }
@@ -52,13 +55,13 @@ class Building(val name: String, val code: String, private val university: Unive
         val index = rooms.indexOf(room)
         when (newType) {
             "Windows" -> {
-                rooms[index] = WindowsRoom(room.roomNumber, room.building, room.timeSlots, room.daysOfTheWeek)
+                rooms[index] = WindowsRoom(room.roomNumber, room.building, room.timeSlots, room.daysOfTheWeek, 0)
             }
             "Linux" -> {
-                rooms[index] = LinuxRoom(room.roomNumber, room.building, room.timeSlots, room.daysOfTheWeek)
+                rooms[index] = LinuxRoom(room.roomNumber, room.building, room.timeSlots, room.daysOfTheWeek, 0)
             }
             "Mac" -> {
-                rooms[index] = MacRoom(room.roomNumber, room.building, room.timeSlots, room.daysOfTheWeek)
+                rooms[index] = MacRoom(room.roomNumber, room.building, room.timeSlots, room.daysOfTheWeek, 0)
             }
         }
         // Add computers to the new room type

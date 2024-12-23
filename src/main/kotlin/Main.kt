@@ -1,6 +1,7 @@
 import androidx.compose.material.MaterialTheme
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import dao.RoomDao
 
 import org.koin.dsl.module
 import org.koin.core.context.startKoin
@@ -13,6 +14,7 @@ fun main(args: Array<String>) = application {
 
     val appModule = module {
         single { UserDao() }
+        single { RoomDao() }
     }
 
     startKoin {

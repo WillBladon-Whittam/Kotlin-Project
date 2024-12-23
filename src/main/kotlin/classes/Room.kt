@@ -60,17 +60,31 @@ abstract class Room(
     }
 
     override fun toString(): String {
-        return "Room $roomNumber in building ${building.name} OS: ${getOperatingSystem()} Computers: $computers"
+        val formattedComputers = computers.joinToString(separator = "\n - ") { it.toString() }
+        val formattedDaysOfTheWeek = daysOfTheWeek.joinToString(separator = ", ") { it }
+        return ("Room: $roomNumber \n" +
+                "Building: ${building.name} \n" +
+                "OS: ${getOperatingSystem()} \n" +
+                "Timeslots: ${timeSlots} \n" +
+                "Days Available $formattedDaysOfTheWeek \n" +
+                "Computers: \n - $formattedComputers").trimIndent()
     }
 }
 
 class WindowsRoom(roomNumber: Int,
                   building: Building,
                   timeSlots: List<String>,
-                  daysOfTheWeek: List<String>) : Room(roomNumber, building, timeSlots, daysOfTheWeek) {
+                  daysOfTheWeek: List<String>,
+                  numberOfComputers: Int) : Room(roomNumber, building, timeSlots, daysOfTheWeek) {
     /**
      * Room with Windows Operating systems on the Computers
      */
+    init {
+        for (i in 1.rangeTo(numberOfComputers)) {
+            this.addComputer(Computer(i, this, timeSlots, daysOfTheWeek))
+        }
+    }
+
     override fun getOperatingSystem(): String {
         return "Windows"
     }
@@ -79,10 +93,17 @@ class WindowsRoom(roomNumber: Int,
 class MacRoom(roomNumber: Int,
               building: Building,
               timeSlots: List<String>,
-              daysOfTheWeek: List<String>) : Room(roomNumber, building, timeSlots, daysOfTheWeek) {
+              daysOfTheWeek: List<String>,
+              numberOfComputers: Int) : Room(roomNumber, building, timeSlots, daysOfTheWeek) {
     /**
      * Room with MAC Operating systems on the Computers
      */
+    init {
+        for (i in 1.rangeTo(numberOfComputers)) {
+            this.addComputer(Computer(i, this, timeSlots, daysOfTheWeek))
+        }
+    }
+
     override fun getOperatingSystem(): String {
         return "Mac"
     }
@@ -91,10 +112,17 @@ class MacRoom(roomNumber: Int,
 class LinuxRoom(roomNumber: Int,
                 building: Building,
                 timeSlots: List<String>,
-                daysOfTheWeek: List<String>) : Room(roomNumber, building, timeSlots, daysOfTheWeek) {
+                daysOfTheWeek: List<String>,
+                numberOfComputers: Int ) : Room(roomNumber, building, timeSlots, daysOfTheWeek) {
     /**
      * Room with Linux Operating systems on the Computers
      */
+    init {
+        for (i in 1.rangeTo(numberOfComputers)) {
+            this.addComputer(Computer(i, this, timeSlots, daysOfTheWeek))
+        }
+    }
+
     override fun getOperatingSystem(): String {
         return "Linux"
     }

@@ -41,7 +41,7 @@ To reset the database, the database can either be deleted, then the application 
 
 OR
 
-running python with the argument "-r" or "--reload-db" will reset the database
+running gradle with the argument "-r" or "--reload-db" will reset the database
 
 > .\gradlew run --args='-r'
 > 

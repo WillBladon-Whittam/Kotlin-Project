@@ -1,100 +1,80 @@
 package pages.regular
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.screen.Screen
+import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.navigator.LocalNavigator
-import pages.LoginPageContent
+import pages.BasePage
 
-class HomePageRegularContent : Screen {
+class HomePageRegularContent : BasePage() {
     /**
-     * Composable for the Home Page of an Regular User
+     * Composable for the Home Page of a Regular User
      */
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.current
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+        super.Content {
             Text(
-                text = "University Computer Booking System - Regular User",
-                style = MaterialTheme.typography.h5,
-                color = Color(0xFF3F51B5)
+                text = "University Computer Booking System",
+                style = MaterialTheme.typography.h4.copy(fontSize = 24.sp),
+                color = Color.White,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(bottom = 8.dp)
             )
 
-            Spacer(modifier = Modifier.height(24.dp))
-
-            // Admin Actions
             Text(
-                text = "User Actions",
-                style = MaterialTheme.typography.h6,
-                color = Color(0xFF3F51B5)
+                text = "- Regular User -",
+                style = MaterialTheme.typography.subtitle1.copy(fontSize = 18.sp),
+                color = Color.White.copy(alpha = 0.9f),
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(bottom = 24.dp)
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Button(
-                onClick = { /* Search for room by building */ },
-                modifier = Modifier.fillMaxWidth()
+            Card(
+                shape = RoundedCornerShape(12.dp),
+                elevation = 8.dp,
+                modifier = Modifier
+                    .fillMaxWidth(0.9f)
+                    .padding(16.dp)
+                    .background(Color.White)
             ) {
-                Text("Search for room by building")
-            }
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "User Actions",
+                        style = MaterialTheme.typography.h6.copy(color = Color(0xFF3F51B5)),
+                        textAlign = TextAlign.Center
+                    )
 
-            Spacer(modifier = Modifier.height(8.dp))
+                    ActionButton(text = "Search for room") { navigator?.push(SearchRoom()) }
+                    ActionButton(text = "Book a computer") { /* Navigate to Book a computer page */ }
+                    ActionButton(text = "View Bookings") { /* Navigate to View Bookings page */ }
+                    ActionButton(text = "Cancel Bookings") { /* Navigate to Cancel Bookings page */ }
 
-            Button(
-                onClick = { /* Search for room by OS */ },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Search for room by OS")
-            }
+                    Divider(color = Color(0xFFE0E0E0), thickness = 1.dp)
 
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Button(
-                onClick = { /* Book a computer */ },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Book a computer")
-            }
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Button(
-                onClick = { /* View Bookings */ },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("View Bookings")
-            }
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Button(
-                onClick = { /* Cancel Bookings */ },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Cancel Bookings")
-            }
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Button(
-                onClick = { navigator?.push(LoginPageContent()) },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Logout")
+                    ActionButton(
+                        text = "Logout",
+                        backgroundColor = Color(0xFFFF5252),
+                        textColor = Color.White
+                    ) {
+                        navigator?.popUntilRoot()
+                    }
+                }
             }
         }
     }
