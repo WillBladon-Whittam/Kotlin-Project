@@ -18,9 +18,9 @@ import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import dao.RoomDao
 import org.koin.compose.koinInject
-import pages.BasePage
+import pages.BaseContent
 
-class SearchRoom : BasePage() {
+class SearchRoomContent : BaseContent() {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.current

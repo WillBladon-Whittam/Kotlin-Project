@@ -12,12 +12,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.navigator.LocalNavigator
+import classes.RegularUser
 import dao.UserDao
 import org.koin.compose.koinInject
 import pages.admin.HomePageAdminContent
 import pages.regular.HomePageRegularContent
 
-class LoginPageContent : BasePage() {
+class RegisterContent : BaseContent() {
 
     @Composable
     override fun Content() {
@@ -25,8 +26,11 @@ class LoginPageContent : BasePage() {
         val navigator = LocalNavigator.current
 
         var username by remember { mutableStateOf("") }
+        var email by remember { mutableStateOf("") }
         var password by remember { mutableStateOf("") }
+
         var errorMessage by remember { mutableStateOf<String?>(null) }
+        var error by remember { mutableStateOf(false) }
 
         super.Content {
             Column(
@@ -35,7 +39,7 @@ class LoginPageContent : BasePage() {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Welcome to University Computer Booking System",
+                    text = "Welcome to the University Computer Booking System",
                     style = MaterialTheme.typography.h4.copy(fontSize = 24.sp),
                     color = Color.White,
                     textAlign = TextAlign.Center,
@@ -43,7 +47,7 @@ class LoginPageContent : BasePage() {
                 )
 
                 Text(
-                    text = "Login to continue",
+                    text = "Register to continue",
                     style = MaterialTheme.typography.subtitle1.copy(fontSize = 18.sp),
                     color = Color.White.copy(alpha = 0.9f),
                     textAlign = TextAlign.Center,
@@ -65,29 +69,55 @@ class LoginPageContent : BasePage() {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
-                            text = "Login",
+                            text = "Register",
                             style = MaterialTheme.typography.h6.copy(color = Color(0xFF3F51B5)),
                             textAlign = TextAlign.Center
                         )
 
                         TextField(
                             value = username,
-                            onValueChange = { username = it },
+                            onValueChange = {
+                                username = it
+                                error = false
+                            },
                             label = { Text("Username") },
                             modifier = Modifier.fillMaxWidth(),
                             colors = TextFieldDefaults.textFieldColors(
-                                backgroundColor = Color(0xFFF0F0F0)
+                                backgroundColor = Color(0xFFF0F0F0),
+                                focusedIndicatorColor = if (error) Color.Red else Color(0xFF3F51B5),
+                                unfocusedIndicatorColor = if (error) Color.Red else Color.Gray
+                            )
+                        )
+
+                        TextField(
+                            value = email,
+                            onValueChange = {
+                                email = it
+                                error = false
+                            },
+                            label = { Text("Email") },
+                            modifier = Modifier.fillMaxWidth(),
+                            visualTransformation = PasswordVisualTransformation(),
+                            colors = TextFieldDefaults.textFieldColors(
+                                backgroundColor = Color(0xFFF0F0F0),
+                                focusedIndicatorColor = if (error) Color.Red else Color(0xFF3F51B5),
+                                unfocusedIndicatorColor = if (error) Color.Red else Color.Gray
                             )
                         )
 
                         TextField(
                             value = password,
-                            onValueChange = { password = it },
+                            onValueChange = {
+                                password = it
+                                error = false
+                            },
                             label = { Text("Password") },
                             modifier = Modifier.fillMaxWidth(),
                             visualTransformation = PasswordVisualTransformation(),
                             colors = TextFieldDefaults.textFieldColors(
-                                backgroundColor = Color(0xFFF0F0F0)
+                                backgroundColor = Color(0xFFF0F0F0),
+                                focusedIndicatorColor = if (error) Color.Red else Color(0xFF3F51B5),
+                                unfocusedIndicatorColor = if (error) Color.Red else Color.Gray
                             )
                         )
 
@@ -100,21 +130,31 @@ class LoginPageContent : BasePage() {
                             )
                         }
 
-                        ActionButton(text = "Login") {
-                            val user = userDao.validateUserLogin(username, password)
-                            if (user != null) {
-                                if (user.loggedIn) {
-                                    errorMessage = "You are already logged in."
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            ActionButton(text = "Register") {
+                                if (username == "" || email == "" || password == "") {
+                                    errorMessage = "Please complete all fields"
+                                    error = true
                                 } else {
-                                    if (user.getUserType() == "Regular") {
-                                        navigator?.push(HomePageRegularContent())
+                                    val user = userDao.insertUser(RegularUser(username, password, email))
+
+                                    if (user == -1) {
+                                        errorMessage = "Username already exists!"
+                                        error = true
                                     } else {
-                                        navigator?.push(HomePageAdminContent())
+                                        navigator?.push(HomePageRegularContent())
                                     }
-                                    errorMessage = null
                                 }
-                            } else {
-                                errorMessage = "Incorrect username or password."
+                            }
+
+                            ActionButton(text = "Return") {
+                                navigator?.popUntilRoot()
                             }
                         }
                     }

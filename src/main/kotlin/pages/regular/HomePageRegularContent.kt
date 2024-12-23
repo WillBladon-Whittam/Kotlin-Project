@@ -1,5 +1,6 @@
-package pages.admin
+package pages.regular
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -11,11 +12,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.navigator.LocalNavigator
-import pages.BasePage
+import pages.BaseContent
 
-class HomePageAdminContent : BasePage() {
+class HomePageRegularContent : BaseContent() {
     /**
-     * Composable for the Home Page of an Admin User
+     * Composable for the Home Page of a Regular User
      */
     @Composable
     override fun Content() {
@@ -31,7 +32,7 @@ class HomePageAdminContent : BasePage() {
             )
 
             Text(
-                text = "Admin Dashboard",
+                text = "- Regular User -",
                 style = MaterialTheme.typography.subtitle1.copy(fontSize = 18.sp),
                 color = Color.White.copy(alpha = 0.9f),
                 textAlign = TextAlign.Center,
@@ -44,6 +45,7 @@ class HomePageAdminContent : BasePage() {
                 modifier = Modifier
                     .fillMaxWidth(0.9f)
                     .padding(16.dp)
+                    .background(Color.White)
             ) {
                 Column(
                     modifier = Modifier
@@ -53,24 +55,22 @@ class HomePageAdminContent : BasePage() {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "Admin Actions",
+                        text = "User Actions",
                         style = MaterialTheme.typography.h6.copy(color = Color(0xFF3F51B5)),
                         textAlign = TextAlign.Center
                     )
 
-                    ActionButton(text = "View All Bookings") { /* View all bookings */ }
-                    ActionButton(text = "Manage Rooms") { /* Manage Rooms */ }
-//                    ActionButton(text = "Add a Room") { /* Add a Room */ }
-//                    ActionButton(text = "Modify a Room") { /* Modify a Room */ }
-//                    ActionButton(text = "Delete a Room") { /* Delete a Room */ }
-                    ActionButton(text = "Manage Users") { /* Manage Users */ }
-//                    ActionButton(text = "Add a User") { /* Add a User */ }
-//                    ActionButton(text = "Modify a User") { /* Modify a User */ }
-//                    ActionButton(text = "Delete a User") { /* Delete a User */ }
+                    ActionButton(text = "Search for room") { navigator?.push(SearchRoomContent()) }
+                    ActionButton(text = "Book a computer") { /* Navigate to Book a computer page */ }
+                    ActionButton(text = "View Bookings") { /* Navigate to View Bookings page */ }
+                    ActionButton(text = "Cancel Bookings") { /* Navigate to Cancel Bookings page */ }
+
+                    Divider(color = Color(0xFFE0E0E0), thickness = 1.dp)
 
                     ActionButton(
                         text = "Logout",
-                        backgroundColor = Color(0xFFB71C1C)
+                        backgroundColor = Color(0xFFFF5252),
+                        textColor = Color.White
                     ) {
                         navigator?.popUntilRoot()
                     }

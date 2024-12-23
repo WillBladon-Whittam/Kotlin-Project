@@ -14,6 +14,7 @@ object UsersTable : Table("users") {
 }
 
 interface UsersDaoInterface {
+    fun getUserByUsername(username: String): User?
     fun insertUser(user: User) : Int
     fun validateUserLogin(username: String, password: String): User?
 }

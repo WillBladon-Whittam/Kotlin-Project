@@ -20,18 +20,49 @@ class UserDao : UsersDaoInterface {
         }
     }
 
+    override fun getUserByUsername(username: String) : User? {
+        var user: User? = null
+        transaction {
+            val resultRow   = UsersTable.selectAll()
+                .where { UsersTable.name eq username }.singleOrNull()
+
+            resultRow?.apply {
+                user = if (this[UsersTable.userType] == "Regular") {
+                    RegularUser(
+                        this[UsersTable.name],
+                        this[UsersTable.password],
+                        this[UsersTable.email],
+                        this[UsersTable.loggedIn]
+                    )
+                } else {
+                    AdminUser(
+                        this[UsersTable.name],
+                        this[UsersTable.password],
+                        this[UsersTable.email],
+                        this[UsersTable.loggedIn]
+                    )
+                }
+            }
+        }
+        return user
+    }
+
     override fun insertUser(user: User) : Int {
         var userId = 0
-        transaction {
-            userId = UsersTable.insert {
-                it[name] = user.name
-                it[password] = user.password
-                it[email] = user.email
-                it[loggedIn] = user.loggedIn
-                it[userType] = user.getUserType()
-            }[UsersTable.id]
+        if (this.getUserByUsername(user.name) == null) {
+            transaction {
+                userId = UsersTable.insert {
+                    it[name] = user.name
+                    it[password] = user.password
+                    it[email] = user.email
+                    it[loggedIn] = user.loggedIn
+                    it[userType] = user.getUserType()
+                }[UsersTable.id]
+            }
+            return userId
+        } else {
+            return -1
         }
-        return userId
     }
 
     override fun validateUserLogin(username: String, password: String) : User? {

@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 
 
-abstract class BasePage: Screen {
+abstract class BaseContent: Screen {
     /**
      * Composable BasePage all pages inherit from.
      *
