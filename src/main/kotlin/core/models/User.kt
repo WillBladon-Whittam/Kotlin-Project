@@ -10,7 +10,7 @@
  * account.
  */
 
-package classes
+package core.models
 
 abstract class User(var name: String,  var password: String, var email: String, var loggedIn: Boolean = false) {
     // Attributes: name, email & password.

@@ -12,7 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.navigator.LocalNavigator
-import dao.UserDao
+import core.services.UserService
+import data.dao.UserDao
 import org.koin.compose.koinInject
 import pages.admin.HomePageAdminContent
 import pages.regular.HomePageRegularContent
@@ -21,7 +22,7 @@ class LoginContent : BaseContent() {
 
     @Composable
     override fun Content() {
-        val userDao: UserDao = koinInject()
+        val userService: UserService = koinInject()
         val navigator = LocalNavigator.current
 
         var username by remember { mutableStateOf("") }
@@ -119,7 +120,7 @@ class LoginContent : BaseContent() {
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             ActionButton(text = "Login") {
-                                val user = userDao.validateUserLogin(username, password)
+                                val user = userService.login(username, password)
                                 if (user != null) {
                                     if (user.loggedIn) {
                                         errorMessage = "You are already logged in."

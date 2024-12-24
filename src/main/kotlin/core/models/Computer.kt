@@ -2,7 +2,7 @@
  * @author  William Bladon-Whittam
  */
 
-package classes
+package core.models
 
 data class ComputerBooking(
     val computerId: String,

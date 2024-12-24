@@ -1,5 +1,9 @@
-import interfaces.RoomsTable
-import interfaces.UsersTable
+package data
+
+import core.models.University
+import data.schema.BookingsTable
+import data.schema.RoomsTable
+import data.schema.UsersTable
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.io.File
@@ -10,7 +14,7 @@ class DatabaseManager(private val databasePath: String = "database.db") {
      * Ensures Integrity of the database.
      */
 
-    private val tables: List<Table> = listOf(UsersTable, RoomsTable)
+    private val tables: List<Table> = listOf(UsersTable, RoomsTable, BookingsTable)
 
     fun initializeDatabase(args: Array<String>) {
         /**
@@ -126,6 +130,33 @@ class DatabaseManager(private val databasePath: String = "database.db") {
                     it[timeSlots] = "9am-11am, 11am-1pm, 1pm-3pm, 3pm-5pm"
                     it[daysOfTheWeek] = "Monday, Tuesday, Wednesday, Thursday, Friday"
                     it[numOfComputers] = 2
+                }
+            }
+
+            if (BookingsTable.selectAll().empty()) {
+                BookingsTable.insert {
+                    it[computerId] = "TS101-1"
+                    it[day] = "Monday"
+                    it[timeSlot] = "9am-11am"
+                    it[studentName] = "John"
+                }
+                BookingsTable.insert {
+                    it[computerId] = "TS101-1"
+                    it[day] = "Monday"
+                    it[timeSlot] = "11am-1pm"
+                    it[studentName] = "Bob"
+                }
+                BookingsTable.insert {
+                    it[computerId] = "TS101-3"
+                    it[day] = "Monday"
+                    it[timeSlot] = "9am-11am"
+                    it[studentName] = "John"
+                }
+                BookingsTable.insert {
+                    it[computerId] = "TS101-4"
+                    it[day] = "Monday"
+                    it[timeSlot] = "11am-1pm"
+                    it[studentName] = "Bob"
                 }
             }
         }

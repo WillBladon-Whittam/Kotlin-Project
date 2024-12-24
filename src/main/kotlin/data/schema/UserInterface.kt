@@ -1,6 +1,6 @@
-package interfaces
+package data.schema
 
-import classes.User
+import core.models.User
 import org.jetbrains.exposed.sql.Table
 
 object UsersTable : Table("users") {
@@ -14,7 +14,5 @@ object UsersTable : Table("users") {
 }
 
 interface UsersDaoInterface {
-    fun getUserByUsername(username: String): User?
     fun insertUser(user: User) : Int
-    fun validateUserLogin(username: String, password: String): User?
 }

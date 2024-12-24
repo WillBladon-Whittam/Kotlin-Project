@@ -16,7 +16,8 @@ import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.navigator.LocalNavigator
-import dao.RoomDao
+import core.services.RoomService
+import data.dao.RoomDao
 import org.koin.compose.koinInject
 import pages.BaseContent
 
@@ -24,14 +25,14 @@ class SearchRoomContent : BaseContent() {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.current
-        val roomsDao: RoomDao = koinInject()
+        val roomService: RoomService = koinInject()
 
         var selectedBuilding by remember { mutableStateOf("All Buildings") }
         var selectedOS by remember { mutableStateOf("All OS") }
         var expandedBuilding by remember { mutableStateOf(false) }
         var expandedOS by remember { mutableStateOf(false) }
 
-        val buildings = listOf("All Buildings") + roomsDao.university.getBuildings().map { it.name }
+        val buildings = listOf("All Buildings") + roomService.university.getBuildings().map { it.name }
         val operatingSystems = listOf("All OS", "Windows", "Linux", "Mac")
 
         var searchResults by remember { mutableStateOf("") }
@@ -133,9 +134,10 @@ class SearchRoomContent : BaseContent() {
 
             ActionButton(text = "Search for room") {
                 val allRooms = if (selectedBuilding == "All Buildings") {
-                    roomsDao.getRooms()
+                    roomService.university.getRooms()
                 } else {
-                    roomsDao.getRooms(selectedBuilding)
+                    val building = roomService.university.getBuildingByName(selectedBuilding)
+                    building?.getRooms() ?: listOf()
                 }
 
                 val filteredRooms = if (selectedOS == "All OS") {

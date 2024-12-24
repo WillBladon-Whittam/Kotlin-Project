@@ -2,7 +2,7 @@
  * @author  William Bladon-Whittam
  */
 
-package classes
+package core.models
 
 class University(val name: String) {
     /**
@@ -13,6 +13,27 @@ class University(val name: String) {
 
     fun getBuildings() : List<Building> {
         return buildings
+    }
+
+    fun getBuildingByName(buildingName: String) : Building? {
+        for (building in buildings) {
+            if (buildingName == building.name) {
+                return building
+            }
+        }
+        return null
+    }
+
+    fun getRooms() : List<Room> {
+        return this.getBuildings().flatMap { it.getRooms() }
+    }
+
+    fun getComputer() : List<Computer> {
+        return this.getRooms().flatMap { it.getComputers() }
+    }
+
+    fun getBookings() : List<ComputerBooking> {
+        return this.getComputer().flatMap { it.getBookings() }
     }
 
     private fun addBuilding(building: Building) {

@@ -12,17 +12,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.navigator.LocalNavigator
-import classes.RegularUser
-import dao.UserDao
+import core.models.RegularUser
+import core.services.UserService
+import data.dao.UserDao
 import org.koin.compose.koinInject
-import pages.admin.HomePageAdminContent
 import pages.regular.HomePageRegularContent
 
 class RegisterContent : BaseContent() {
 
     @Composable
     override fun Content() {
-        val userDao: UserDao = koinInject()
+        val userService: UserService = koinInject()
         val navigator = LocalNavigator.current
 
         var username by remember { mutableStateOf("") }
@@ -142,9 +142,9 @@ class RegisterContent : BaseContent() {
                                     errorMessage = "Please complete all fields"
                                     error = true
                                 } else {
-                                    val user = userDao.insertUser(RegularUser(username, password, email))
+                                    val user = userService.addUser(username, email, password)
 
-                                    if (user == -1) {
+                                    if (user == null) {
                                         errorMessage = "Username already exists!"
                                         error = true
                                     } else {

@@ -3,7 +3,7 @@
  * @author  Edward Kirr
  */
 
-package classes
+package core.models
 
 class Building(val name: String, val code: String, private val university: University) {
     /**

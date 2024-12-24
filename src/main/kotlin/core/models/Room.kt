@@ -3,7 +3,7 @@
  * @author  Charlie Clark
  */
 
-package classes
+package core.models
 
 abstract class Room(
     var roomNumber: Int, val building: Building,

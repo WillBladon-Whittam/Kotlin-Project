@@ -4,7 +4,7 @@
 //// user types (admin, regular) and operations i.e. deleting, editing /////
 ///////////////////////////////////////////////////////////////////////////
 
-package classes
+package core.models
 
 class UserAccounts {
     // interfaces.User Accounts class, responsible for storing users in a list and all its operations,
@@ -30,6 +30,10 @@ class UserAccounts {
 
     fun deleteUser(user: User) {
         users.remove(user)
+    }
+
+    fun validateLogin(username: String, password: String) : User? {
+        return this.getUsers().find { it.name == username && it.password == password }
     }
 
     override fun toString(): String {
