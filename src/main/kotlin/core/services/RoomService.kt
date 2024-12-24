@@ -14,9 +14,10 @@ open class RoomService : KoinComponent {
     val sparkBuilding = university.createBuilding("The Spark", "TS")
     val herbetCollinsBuilding = university.createBuilding("Herbert Collins", "HS")
 
-    // Creating Rooms (Rooms must be created via Building - rooms cant exist without a building)
-    val sparkBuildingRoom1 = sparkBuilding.createWindowsRoom(101, numOfComputers = 10)
-    val sparkBuildingRoom2 = sparkBuilding.createLinuxRoom(202, numOfComputers = 8)
-    val herbetCollinsBuildingRoom1 = herbetCollinsBuilding.createMacRoom(303, numOfComputers = 2)
-
+    init {
+        val rooms = roomDao.getRooms(university)
+        for (room in rooms) {
+            room.building.addRoom(room)
+        }
+    }
 }

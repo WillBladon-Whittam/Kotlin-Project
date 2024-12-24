@@ -1,20 +1,34 @@
 package core.services
 
+import core.models.Computer
 import core.models.University
 import core.models.ComputerBooking
+import core.models.User
 import data.dao.BookingDao
 import data.dao.UserDao
 
-class BookingService(private val roomService: RoomService, private val userService: UserService){
+class BookingService(val roomService: RoomService, val userService: UserService) {
+    val bookingDao: BookingDao = BookingDao()
 
     init {
-        roomService.sparkBuildingRoom1.getComputers()[0].addBooking(ComputerBooking
-            (roomService.sparkBuildingRoom1.getComputers()[0].globalId, "Monday", "9am-11am", userService.john))
-        roomService.sparkBuildingRoom1.getComputers()[0].addBooking(ComputerBooking(
-            roomService.sparkBuildingRoom1.getComputers()[0].globalId, "Monday", "11am-1pm", userService.bob))
-        roomService.sparkBuildingRoom1.getComputers()[2].addBooking(ComputerBooking
-            (roomService.sparkBuildingRoom1.getComputers()[2].globalId, "Monday", "9am-11am", userService.john))
-        roomService.sparkBuildingRoom1.getComputers()[3].addBooking(ComputerBooking(
-            roomService.sparkBuildingRoom1.getComputers()[3].globalId, "Monday", "11am-1pm", userService.bob))
+        val bookings = bookingDao.getBookings(userService.accounts)
+        val computers = roomService.university.getComputer()
+        for (booking in bookings) {
+            for (computer in computers) {
+                if (computer.globalId == booking.computerId) {
+                    computer.addBooking(booking)
+                }
+            }
+        }
+    }
+
+    fun addBooking(computer: Computer, booking: ComputerBooking) {
+        bookingDao.insertBooking(booking)
+        computer.addBooking(booking)
+    }
+
+    fun cancelBooking(computer: Computer, booking: ComputerBooking) {
+        bookingDao.deleteBooking(booking)
+        computer.deleteBooking(booking)
     }
 }

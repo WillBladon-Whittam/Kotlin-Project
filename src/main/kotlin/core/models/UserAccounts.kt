@@ -16,6 +16,10 @@ class UserAccounts {
         return users
     }
 
+    fun getUsersByName(name: String): User? {
+        return users.find { it.name == name }
+    }
+
     fun addUser(user: User) : String {
         // Parameter: user - takes an object of type user
         // Creates either an admin or regular user object,

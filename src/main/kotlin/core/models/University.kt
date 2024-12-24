@@ -15,13 +15,8 @@ class University(val name: String) {
         return buildings
     }
 
-    fun getBuildingByName(buildingName: String) : Building? {
-        for (building in buildings) {
-            if (buildingName == building.name) {
-                return building
-            }
-        }
-        return null
+    fun getBuildingByName(buildingName: String): Building? {
+        return buildings.find { it.name == buildingName }
     }
 
     fun getRooms() : List<Room> {

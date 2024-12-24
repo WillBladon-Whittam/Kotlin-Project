@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import pages.BaseContent
+import pages.BookComputerContent
 
 class HomePageRegularContent : BaseContent() {
     /**
@@ -61,7 +62,7 @@ class HomePageRegularContent : BaseContent() {
                     )
 
                     ActionButton(text = "Search for room") { navigator?.push(SearchRoomContent()) }
-                    ActionButton(text = "Book a computer") { /* Navigate to Book a computer page */ }
+                    ActionButton(text = "Book a computer") { navigator?.push(BookComputerContent()) }
                     ActionButton(text = "View Bookings") { /* Navigate to View Bookings page */ }
                     ActionButton(text = "Cancel Bookings") { /* Navigate to Cancel Bookings page */ }
 

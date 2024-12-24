@@ -14,5 +14,6 @@ object UsersTable : Table("users") {
 }
 
 interface UsersDaoInterface {
+    fun getUsers() : List<User>
     fun insertUser(user: User) : Int
 }

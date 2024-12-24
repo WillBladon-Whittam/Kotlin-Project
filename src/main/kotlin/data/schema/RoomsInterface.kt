@@ -1,6 +1,7 @@
 package data.schema
 
 import core.models.Room
+import core.models.University
 import org.jetbrains.exposed.sql.Table
 
 object RoomsTable : Table("rooms") {
@@ -15,5 +16,6 @@ object RoomsTable : Table("rooms") {
 }
 
 interface RoomsDaoInterface {
+    fun getRooms(university: University) : List<Room>
     fun insertRoom(room: Room) : Boolean
 }

@@ -15,7 +15,11 @@ class Building(val name: String, val code: String, private val university: Unive
         return rooms
     }
 
-    private fun addRoom(room: Room) {
+    fun getRoomByNumber(roomNumber: Int) : Room? {
+        return rooms.find { it.roomNumber == roomNumber }
+    }
+
+    fun addRoom(room: Room) {
         rooms.add(room)
     }
 

@@ -126,6 +126,7 @@ class LoginContent : BaseContent() {
                                         errorMessage = "You are already logged in."
                                         error = true
                                     } else {
+                                        userService.loggedIn = user
                                         if (user.getUserType() == "Regular") {
                                             navigator?.push(HomePageRegularContent())
                                         } else {

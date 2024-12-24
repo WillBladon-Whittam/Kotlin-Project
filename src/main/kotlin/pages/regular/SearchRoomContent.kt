@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -46,7 +47,23 @@ class SearchRoomContent : BaseContent() {
                 modifier = Modifier.padding(bottom = 8.dp)
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            // Top bar with "Return" button and Key
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                // "Return" button
+                IconButton(onClick = { navigator?.pop() }) {
+                    Icon(
+                        imageVector = Icons.Filled.ArrowBack,
+                        contentDescription = "Back",
+                        tint = Color.White
+                    )
+                }
+            }
 
             Row(
                 modifier = Modifier
@@ -189,10 +206,6 @@ class SearchRoomContent : BaseContent() {
                     }
                 }
             }
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            ActionButton(text = "Return") { navigator?.pop() }
         }
     }
 }

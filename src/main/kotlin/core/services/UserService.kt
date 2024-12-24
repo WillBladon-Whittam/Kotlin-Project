@@ -5,17 +5,16 @@ import data.dao.RoomDao
 import data.dao.UserDao
 
 open class UserService() {
-    private val accounts =  UserAccounts()
-    private val userDao: UserDao = UserDao()
+    val accounts =  UserAccounts()
+    val userDao: UserDao = UserDao()
 
-    val john = RegularUser("John", "123", "john@outlook.com")
-    val steve = AdminUser("Steve", "456", "steve@hotmail.co.uk")
-    val bob = RegularUser("Bob", "789", "bob@solent.ac.uk")
+    var loggedIn: User? = null
 
     init {
-        accounts.addUser(john)
-        accounts.addUser(steve)
-        accounts.addUser(bob)
+        val users = userDao.getUsers()
+        for (user in users) {
+            accounts.addUser(user)
+        }
     }
 
     fun login(username: String, password: String) : User? {

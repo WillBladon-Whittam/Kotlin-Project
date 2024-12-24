@@ -1,6 +1,8 @@
 package data.schema
 
 import core.models.ComputerBooking
+import core.models.University
+import core.models.UserAccounts
 import org.jetbrains.exposed.sql.Table
 
 object BookingsTable : Table("bookings") {
@@ -13,5 +15,7 @@ object BookingsTable : Table("bookings") {
 }
 
 interface BookingsDaoInterface {
+    fun getBookings(accounts: UserAccounts) : List<ComputerBooking>
     fun insertBooking(booking: ComputerBooking) : Int
+    fun deleteBooking(booking: ComputerBooking) : Int
 }
